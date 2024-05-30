@@ -17,11 +17,31 @@ let verticalLines = [];
 //song to hold the audio,and analyzer to hold the amplitude data from the audio
 let song,analyzer ;
 
+//add variables for the volume and pan
+let volume = 1.0;//full volume
+let pan = 0.0;// start the pan at the center
+
+function preload(){
+  //resouce:https://www.youtube.com/watch?v=s3XCOb6PPSA,and I convert this video into wav. file
+  song = loadSound('assets/BOOGIE-WOOGIE-PIANO.wav')
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(255, 250, 240); //Floralwhite
   calculateMondrian();
   noLoop(); //make the draw function only run once
+
+  //create a new amplitude analyzer,whcih analyze the volume of the song
+  analyzer = new p5.Amplitude();
+  //connect the input of the analyzer to the song
+  analyzer.setInput(song);
+
+  //add button"play/pause"
+  let button = createButton('Play/Pause');
+  //set the position of the button
+  button.position((width-button.width)/2,height-button.height-2);
+  button.mousePressed(play_pause);
 }
 
 function draw() {
