@@ -19,9 +19,9 @@ This also reminded me of the scene in the early 21st century when TVs often flas
 Therefore, after entering the page, you can see that the square at the intersection is flashing and changing. Secondly, after loading the music, the volume of the music can control the size of the square.
 ### 2.4 Technical explanation
 ####  Changes to the group code
-- Delete noLoop
+- Delete noLoop:
   In the group code, we use noLoop to ensure "draw function" only runs once, but it limits my animate effect on my individual code, so I delete it.
-- Introduce class for the whole painting
+- Introduce class for the whole painting:
   We did'nt use "class" in group code. In order to simplify the code, I created the class "MondrainArt" to seal the relevant attributes for subsequent calls and maintenance.
 - Separate “calculate” and “draw” function：
   After deleting noLoop, the canvas will refresh all the time, hindering the subsequent animation. I admit that I used ChatGPT to solve this problem, and it provided me with the idea of ​​logical separation. The calculation part is responsible for data processing and logical operations, and the generation part is responsible for graphics rendering and display. Separating the two can avoid mixing complex logic in one function and reduce the possibility of errors.
