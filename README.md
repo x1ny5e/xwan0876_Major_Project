@@ -24,3 +24,6 @@ Therefore, after entering the page, you can see that the square at the intersect
 - Introduce class for the whole painting:
   We did'nt use "class" in group code. In order to simplify the code, I created the class "MondrainArt" to seal the relevant attributes for subsequent calls and maintenance.
 - Separate “calculate” and “draw” function: After deleting noLoop, the canvas will refresh all the time, hindering the subsequent animation. I admit that I used ChatGPT to solve this problem, and it provided me with the idea of ​​logical separation. The calculation part is responsible for data processing and logical operations, and the generation part is responsible for graphics rendering and display. Separating the two can avoid mixing complex logic in one function and reduce the possibility of errors.
+####  Technic outside the course
+- The floor() function is used to round a number down to the nearest integer.
+  [click this link to view the "floor" resource](https://www.youtube.com/watch?v=NNe86B56__o)https://p5js.org/zh-Hans/reference/#/p5/floor
