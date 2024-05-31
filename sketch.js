@@ -1,16 +1,18 @@
+//create class for mondrianArt
 class MondrianArt {
   constructor(mondrian, rectSize) {
-    this.mondrian = mondrian;
-    this.rectSize = rectSize;
-    this.rectangles = [];
-    this.minRectangles = 10;
-    this.maxRectangles = 15;
-    this.horizontalLines = [];
-    this.verticalLines = [];
+    this.mondrian = mondrian;//whole painting
+    this.rectSize = rectSize; //initial 
+    this.rectangles = []; //arrays for rectangles
+    this.minRectangles = 10; //min number of rectangles
+    this.maxRectangles = 15; //max number of rectangles
+    this.horizontalLines = [];// arrays to hold horizontal lines
+    this.verticalLines = []; //arrays to hold vertical lines
   }
 
+  // fit to the screen 
   calculateMondrian(canvasAspectRatio) {
-    this.mondrian.aspect = 1; // Square aspect ratio
+    this.mondrian.aspect = 1; // Square aspect ratio 
     if (1 > canvasAspectRatio) {
       this.mondrian.width = width;
       this.mondrian.height = width / this.mondrian.aspect;
@@ -30,31 +32,41 @@ class MondrianArt {
   }
 
   calculateLines() {
+    //add arrays to hold horizontal and vertical lines 
     this.horizontalLines = [];
     this.verticalLines = [];
 
+    //The starting point coordinates of Y, this is the position of the first horizontal line, 
+    //and the subsequent vertical lines are arranged based on this.
     let firstY = floor(random(0, 2)) * this.rectSize;
     let firstX = floor(random(0, 2)) * this.rectSize;
 
+    //calculate Horizontal lines
     for (let i = 0; i < random(10, 12); i++) {
       let y = firstY + floor(random(i, i * 2)) * this.rectSize + this.rectSize;
+      //Limit the maximum value
       if (y > this.mondrian.height) y = this.mondrian.height;
       let h = this.rectSize / 2;
       this.horizontalLines.push({ y, h, x: 0, w: this.mondrian.width });
-      for (let j = this.rectSize; j < this.mondrian.width; j += this.rectSize) {
+      for (let i = this.rectSize; i < this.mondrian.width; i += this.rectSize) {
         if (random() > 0.5) {
           let randomColor = random([color(238, 216, 34), color(173, 57, 42), color(67, 103, 187), color(200, 200, 200)]);
           this.horizontalLines.push({ x: j, y, size: this.rectSize / 2, color: randomColor });
         }
       }
     }
-
-    for (let i = 0; i < random(10, 12); i++) {
+      //calculate Vertical lines
+      for (let i = 0; i < random(10, 12); i++) {
+        // Calculate the x-coordinate
+      // Start from firstX, add a random offset,
+     // where the offset is the floor value of a random number between i and i * 2,
+     // multiplied by rectSize, and then add rectSize
       let x = firstX + floor(random(i, i * 2)) * this.rectSize + this.rectSize;
       if (x > this.mondrian.width) x = this.mondrian.width;
       let w = this.rectSize / 2;
       this.verticalLines.push({ x, w, y: 0, h: this.mondrian.height });
-      for (let j = this.rectSize; j < this.mondrian.height; j += this.rectSize) {
+
+      for (let i= this.rectSize; i < this.mondrian.height; i += this.rectSize) {
         if (random() > 0.5) {
           let randomColor = random([color(238, 216, 34), color(173, 57, 42), color(67, 103, 187), color(200, 200, 200)]);
           this.verticalLines.push({ x, y: j, size: this.rectSize / 2, color: randomColor });
@@ -63,11 +75,14 @@ class MondrianArt {
     }
   }
 
+  //genertaed lines
   drawLines() {
+    //horizontal lines
     for (let line of this.horizontalLines) {
       if (line.size) {
         fill(line.color);
         noStroke();
+        //Add random colored squares along the horizontal line
         square(line.x + this.mondrian.xOffset, line.y + this.mondrian.yOffset, line.size);
       } else {
         fill(238, 216, 34);
@@ -76,10 +91,12 @@ class MondrianArt {
       }
     }
 
+    //vertical lines
     for (let line of this.verticalLines) {
       if (line.size) {
         fill(line.color);
         noStroke();
+        //Add random colored squares along the vertical line
         square(line.x + this.mondrian.xOffset, line.y + this.mondrian.yOffset, line.size);
       } else {
         fill(238, 216, 34);
@@ -228,13 +245,23 @@ class MondrianArt {
   }
 
   drawIntersectionSquares(analyzer, rectSize) {
+    //go through all the lines arrays to find intersection
     for (let horizontal of this.horizontalLines) {
       for (let vertical of this.verticalLines) {
+
+        //check within the canvas
         if (vertical.x < this.mondrian.width && horizontal.y < this.mondrian.height) {
+
+          //Get the average (root mean square) amplitude
           let rms = analyzer.getLevel();
+
+          //red blue grey colors, excluding yellow
           let randomColor = random([color(173, 57, 42), color(67, 103, 187), color(200, 200, 200)]);
           fill(randomColor);
+          //draw squares
           square(vertical.x + this.mondrian.xOffset, horizontal.y + this.mondrian.yOffset, rectSize / 2 + rms * 200);
+          
+          //draw text to the 2 values
           text('Volume: ' + volume.toFixed(2), 10, 20);
           text('Pan: ' + pan.toFixed(2), 10, 40);
         }
@@ -243,26 +270,41 @@ class MondrianArt {
   }
 }
 
+//set each rectangele size
 let rectSize = 40;
+//Make an object to hold the properties of the Mondrian design
 let mondrian = { aspect: 0, width: 600, height: 600, xOffset: 0, yOffset: 0 };
+//A variable for the canvas aspect ratio
 let canvasAspectRatio = 0;
+
+//variables for song to aquire the data from the disk,
+// anlayzer for hold the amplitude data from the audio
 let song, analyzer;
+
+//l start the volume and the pan at 0.0
 let volume = 0.0;
 let pan = 0.0;
+
 let mondrianArt = new MondrianArt(mondrian, rectSize);
 
 function preload() {
+  // Resource: https://www.youtube.com/watch?v=s3XCOb6PPSA, and I convert this video into wav. file
   song = loadSound('assets/BOOGIE-WOOGIE-PIANO.wav');
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   calculateMondrian();
+   // create a new Amplitude analyzer, this will analyze the volume of the song
   analyzer = new p5.Amplitude();
+  // Connect the input of the analyzer to the song
   analyzer.setInput(song);
 
+  ////Add a button for play/pause
   let button = createButton('Play/Pause');
+  //set the position of the button to the bottom center
   button.position((width - button.width) / 2, height - button.height - 2);
+  //mouse pressed to play music.
   button.mousePressed(play_pause);
 
   mondrianArt.calculateRectangles();
@@ -276,11 +318,13 @@ function draw() {
   mondrianArt.drawIntersectionSquares(analyzer, rectSize);
 }
 
+// calculate the painting 
 function calculateMondrian() {
   canvasAspectRatio = width / height;
   mondrianArt.calculateMondrian(canvasAspectRatio);
 }
 
+//fit the screen
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   background(255, 250, 240);
@@ -297,9 +341,10 @@ function play_pause() {
 }
 
 function mouseMoved() {
+  /// map the mouseY to a volume value between 0 and 1
   volume = map(mouseY, 0, height, 1, 0);
   song.setVolume(volume);
-
+  // map the mouseX to a pan value between -1 and 1
   pan = map(mouseX, 0, width, -1, 1);
   song.pan(pan);
 }
