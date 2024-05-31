@@ -51,7 +51,7 @@ class MondrianArt {
       for (let i = this.rectSize; i < this.mondrian.width; i += this.rectSize) {
         if (random() > 0.5) {
           let randomColor = random([color(238, 216, 34), color(173, 57, 42), color(67, 103, 187), color(200, 200, 200)]);
-          this.horizontalLines.push({ x: j, y, size: this.rectSize / 2, color: randomColor });
+          this.horizontalLines.push({ x: i, y, size: this.rectSize / 2, color: randomColor });
         }
       }
     }
@@ -69,7 +69,7 @@ class MondrianArt {
       for (let i= this.rectSize; i < this.mondrian.height; i += this.rectSize) {
         if (random() > 0.5) {
           let randomColor = random([color(238, 216, 34), color(173, 57, 42), color(67, 103, 187), color(200, 200, 200)]);
-          this.verticalLines.push({ x, y: j, size: this.rectSize / 2, color: randomColor });
+          this.verticalLines.push({ x, y: i, size: this.rectSize / 2, color: randomColor });
         }
       }
     }
@@ -280,7 +280,8 @@ let canvasAspectRatio = 0;
 //variables for song to aquire the data from the disk,
 // anlayzer for hold the amplitude data from the audio
 let song, analyzer;
-
+//create button
+let button;
 //l start the volume and the pan at 0.0
 let volume = 0.0;
 let pan = 0.0;
@@ -301,9 +302,8 @@ function setup() {
   analyzer.setInput(song);
 
   ////Add a button for play/pause
-  let button = createButton('Play/Pause');
-  //set the position of the button to the bottom center
-  button.position((width - button.width) / 2, height - button.height - 2);
+   button = createButton('Play/Pause');
+   updateButtonPosition(); //initial position
   //mouse pressed to play music.
   button.mousePressed(play_pause);
 
@@ -330,6 +330,12 @@ function windowResized() {
   background(255, 250, 240);
   calculateMondrian();
   draw();
+  updateButtonPosition();
+ 
+}
+//fit th button to the screen
+function updateButtonPosition() {
+  button.position((width - button.width) / 2, height - button.height - 20);
 }
 
 function play_pause() {
