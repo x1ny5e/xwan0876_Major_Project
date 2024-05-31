@@ -10,7 +10,7 @@ I use audio and mouse interaction to drive my code.
 I animated the square at the intersection of the horizontal and vertical lines because I think the intersection should be highlighted. My team members made changes to the lines and rectangles, so I chose the square. And their animation is based on color, quantity and movement, so I changed the size of the square.
 ### 2.3 Inspiration
 Since the background of this work depicts American streets and jazz, I specially selected a piano accompaniment with boogie woogie. I saw a video on YouTube of playing boogie woogie on the piano on an app, and the scales were particularly rhythmic as the melody fell. 
-[click this link to view the videdo](https://www.youtube.com/watch?v=NNe86B56__o)
+[click this link to view the video](https://www.youtube.com/watch?v=NNe86B56__o)
 ![An image of piano](assets/piano.jpg)
 This also reminded me of the scene in the early 21st century when TVs often flashed because of no signal.
 
